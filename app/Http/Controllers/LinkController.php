@@ -56,10 +56,12 @@ class LinkController extends Controller
         return redirect($link->original_url);
     }
 
-    public function is_limit_reached($link)
+    public function is_limit_reached($link): bool
     {
         if ($link->redirect_limit !== null && $link->access_count >= $link->redirect_limit) {
             return true;
         }
+
+        return false;
     }
 }
