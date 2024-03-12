@@ -32,7 +32,7 @@ class LinkController extends Controller
 
         return redirect()->route('link.index')->with([
             'original_url' => $request->original_url,
-            'shortened_url'=> $shortened
+            'shortened_url'=> $request->getHttpHost().'/'.$shortened
         ]);
     }
 
