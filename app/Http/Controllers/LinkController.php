@@ -13,8 +13,12 @@ class LinkController extends Controller
         return view('index');
     }
 
-    public function store(Request $request): \Illuminate\Http\RedirectResponse
+    public function store(Request $request): \Illuminate\Http\RedirectResponse | null
     {
+        if(empty($request->original_url)){
+            return null;
+        }
+
         $request->validate([
             'original_url' => 'required|url',
         ]);
@@ -26,7 +30,10 @@ class LinkController extends Controller
             'shortened_url' => $shortened,
         ]);
 
-        return redirect()->route('link.index')->with('shortened_url', url("/{$shortened}"));
+        return redirect()->route('link.index')->with([
+            'original_url' => $request->original_url,
+            'shortened_url'=> $shortened
+        ]);
     }
 
     private function generateUniqueShortUrl(int $length): string
