@@ -1,6 +1,7 @@
 <?php
 
 use Illuminate\Support\Facades\Route;
+use App\Http\Controllers\LinkController;
 
 /*
 |--------------------------------------------------------------------------
@@ -13,6 +14,8 @@ use Illuminate\Support\Facades\Route;
 |
 */
 
-Route::get('/', function () {
-    return view('welcome');
-});
+
+Route::get('/', [LinkController::class, 'index'])->name('link.index');
+Route::post('/shorten', [LinkController::class, 'store'])->name('link.store');
+Route::get('/{shortened}', [LinkController::class, 'show'])->name('link.show');
+
