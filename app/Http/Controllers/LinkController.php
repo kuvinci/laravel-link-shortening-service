@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use Carbon\Carbon;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Cache;
 use Illuminate\Support\Str;
 use App\Models\Link;
 
@@ -51,7 +52,9 @@ class LinkController extends Controller
 
     public function show($shortened)
     {
-        $link = Link::where('shortened_url', $shortened)->firstOrFail();
+        $link = Cache::remember("links:{$shortened}", 60, function () use ($shortened) {
+            return Link::where('shortened_url', $shortened)->firstOrFail();
+        });
 
         if($this->is_limit_reached($link)){
             return response()->view('404', [
@@ -60,6 +63,7 @@ class LinkController extends Controller
         }
 
         if($this->is_expired($link)){
+            Cache::forget("links:{$shortened}");
             return response()->view('404', [
                 'title' => 'Link Expired'
             ], 404);
