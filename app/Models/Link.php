@@ -7,7 +7,5 @@ use Illuminate\Database\Eloquent\Model;
 
 class Link extends Model
 {
-    use HasFactory;
-
-    protected $fillable = ['original_url'];
+    protected $fillable = ['original_url', 'shortened_url'];
 }
