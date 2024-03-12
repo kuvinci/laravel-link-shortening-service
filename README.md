@@ -20,10 +20,6 @@ This project is developed to offer a basic yet powerful link shortening service,
     - *views*
         - [**index.blade.php**](https://github.com/kuvinci/laravel-link-shortening-service/blob/main/resources/views/index.blade.php) (The main view for creating shortened links)
         - [**404.blade.php**](https://github.com/kuvinci/laravel-link-shortening-service/blob/main/resources/views/404.blade.php)
-- *tests*
-    - *Feature*
-        - [**LinkCreationTest.php**](https://github.com/kuvinci/laravel-link-shortening-service/blob/master/tests/Feature/LinkCreationTest.php) (Tests for link creation functionality)
-        - [**LinkRedirectionTest.php**](https://github.com/kuvinci/laravel-link-shortening-service/blob/master/tests/Feature/LinkRedirectionTest.php) (Tests for link redirection logic)
 
 ## Setup
 ```bash
