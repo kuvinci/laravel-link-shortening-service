@@ -15,12 +15,9 @@ class LinkController extends Controller
 
     public function store(Request $request): \Illuminate\Http\RedirectResponse | null
     {
-        if(empty($request->original_url)){
-            return null;
-        }
-
         $request->validate([
             'original_url' => 'required|url',
+            'redirect_limit' => 'integer|min:0',
         ]);
 
         $shortened = $this->generateUniqueShortUrl(8);
@@ -28,11 +25,12 @@ class LinkController extends Controller
         Link::create([
             'original_url' => $request->original_url,
             'shortened_url' => $shortened,
+            'redirect_limit' => $request->redirect_limit
         ]);
 
         return redirect()->route('link.index')->with([
             'original_url' => $request->original_url,
-            'shortened_url'=> $request->getHttpHost().'/'.$shortened
+            'shortened_url'=> $shortened
         ]);
     }
 
@@ -49,6 +47,19 @@ class LinkController extends Controller
     {
         $link = Link::where('shortened_url', $shortened)->firstOrFail();
 
+        if($this->is_limit_reached($link)){
+            return response()->view('limit_reached', [], 404);
+        }
+
+        $link->increment('access_count');
+
         return redirect($link->original_url);
+    }
+
+    public function is_limit_reached($link)
+    {
+        if ($link->redirect_limit !== null && $link->access_count >= $link->redirect_limit) {
+            return true;
+        }
     }
 }

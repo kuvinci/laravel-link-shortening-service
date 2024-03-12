@@ -4,8 +4,11 @@
     <form action="{{ route('link.store') }}" method="POST">
         @csrf
         <div class="mb-3 d-flex flex-column align-items-center">
-            <label for="original_url" class="form-label">Original URL</label>
+            <label for="original_url" class="form-label">Original URL *</label>
             <input type="url" id="original_url" name="original_url" required class="form-control">
+
+            <label for="redirect_limit" class="form-label">Redirect limit (optional)</label>
+            <input type="number" id="redirect_limit" name="redirect_limit" placeholder="Redirect Limit (optional)" class="form-control">
         </div>
         <div class="d-flex justify-content-center">
             <button type="submit" class="btn btn-primary w-100">Shorten</button>
