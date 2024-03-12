@@ -3,12 +3,15 @@
 <div class="container shadow-sm p-3 bg-white rounded-3">
     <form action="{{ route('link.store') }}" method="POST">
         @csrf
-        <div class="mb-3 d-flex flex-column align-items-center">
-            <label for="original_url" class="form-label">Original URL *</label>
+        <div class="mb-3 d-flex flex-column align-items-start">
+            <label for="original_url" class="form-label mt-3">Original URL *</label>
             <input type="url" id="original_url" name="original_url" required class="form-control">
 
-            <label for="redirect_limit" class="form-label">Redirect limit (optional)</label>
-            <input type="number" id="redirect_limit" name="redirect_limit" placeholder="Redirect Limit (optional)" class="form-control">
+            <label for="redirect_limit" class="form-label mt-3">Redirect limit (optional)</label>
+            <input type="number" id="redirect_limit" name="redirect_limit" class="form-control">
+
+            <label for="expiration_hours" class="form-label mt-3">Expiration Time in Hours (Up to 24)</label>
+            <input type="number" id="expiration_hours" name="expiration_hours" min="1" max="24" class="form-control">
         </div>
         <div class="d-flex justify-content-center">
             <button type="submit" class="btn btn-primary w-100">Shorten</button>

@@ -17,6 +17,7 @@ return new class extends Migration
             $table->string('shortened_url')->unique();
             $table->integer('access_count')->default(0);
             $table->integer('redirect_limit')->nullable();
+            $table->dateTime('expires_at')->default(24);
             $table->timestamps();
         });
     }
