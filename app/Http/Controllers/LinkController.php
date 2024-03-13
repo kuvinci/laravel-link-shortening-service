@@ -56,13 +56,13 @@ class LinkController extends Controller
             return Link::where('shortened_url', $shortened)->firstOrFail();
         });
 
-        if($this->is_limit_reached($link)){
+        if($this->isLimitReached($link)){
             return response()->view('404', [
                 'title' => 'Redirect limit reached'
             ], 404);
         }
 
-        if($this->is_expired($link)){
+        if($this->isExpired($link)){
             Cache::forget("links:{$shortened}");
             return response()->view('404', [
                 'title' => 'Link Expired'
@@ -74,7 +74,7 @@ class LinkController extends Controller
         return redirect($link->original_url);
     }
 
-    public function is_limit_reached($link): bool
+    public function isLimitReached($link): bool
     {
         if ($link->redirect_limit !== null && $link->access_count >= $link->redirect_limit) {
             return true;
@@ -82,7 +82,8 @@ class LinkController extends Controller
 
         return false;
     }
-    public function is_expired($link): bool
+
+    public function isExpired($link): bool
     {
         $carbonExpiresAt = Carbon::parse($link->expires_at);
         if($link->expires_at !== null && $carbonExpiresAt->isPast()){
